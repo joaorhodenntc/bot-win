@@ -15,7 +15,7 @@ async function obterPartidas() {
 }
 
 async function obterOdds(idPartida){ 
-    const url = `https://apiv3.apifootball.com/?action=get_odds&APIkey=c16ba32e0dd38a8ef4b4c90a570d380f0665716e4b214e3715a2448fce6d7656&match_id=${idPartida}`
+    const url = `https://apiv3.apifootball.com/?action=get_odds&APIkey=0d88d204ef4d0e282de0735dfde89fe3a630290ee1901a9b9b6fd897f3604df9&match_id=${idPartida}`
     const response = await axios.get(url);
     return response.data;
 }
