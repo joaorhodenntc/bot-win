@@ -3,7 +3,8 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 
 const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA'
-const chat_id = '-1002103942145'
+const chat_bot = '-1002103942145'
+const chat_error = '-1002016006632'
 const bot = new TelegramBot(token, { polling: false });
 const app = express();
 
@@ -19,7 +20,7 @@ async function obterOdds(idPartida){
     return response.data;
 }
 
-async function enviarMensagemTelegram(mensagem) {
+async function enviarMensagemTelegram(chat_id,mensagem) {
     try {
         await bot.sendMessage(chat_id, mensagem, { parse_mode: 'Markdown' });
     } catch (error) {
@@ -71,7 +72,7 @@ async function analisarPartidas(){
                                 messageIndicacao = "Pressão time visitante (favorito) - possível vitória"
                             }
                             const mensagem = `*${nomeHome}* vs *${nomeAway}*\n\n⚽ Placar: ${scoreHome} x ${scoreAway}\n⚔️ Ataques Perigosos: ${apHome >= 45 ? '*' + apHome + '* 🔥' : apHome} x ${apAway >= 45 ? '*' + apAway + '* 🔥' : apAway}\n📈 Odds Pré: ${oddHome <= 1.45 ? oddHome + ' 👑' : oddHome} x ${oddAway <= 1.45 ? oddAway + ' 👑' : oddAway}\n🕛 Tempo: ${minutes}\n\n*${messageIndicacao}*`;
-                            await enviarMensagemTelegram(mensagem);
+                            await enviarMensagemTelegram(chat_bot,mensagem);
                             console.log(mensagem);
                             partidasNotificadas.add(idPartida);
                     }
@@ -94,7 +95,8 @@ async function iniciar() {
         await analisarPartidas();
         console.log(qtdPartidas + " Jogos ao vivo,"+" Analisando " + partidasEmAnalise.size + " Partidas," + " Partidas Notificadas: ["+ [...partidasNotificadas].join(", ")+"]");
     } catch (error) {
-            console.error(error);
+        console.log(error);
+        await enviarMensagemTelegram(chat_error,error);
     }
 }
 
