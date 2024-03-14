@@ -3,7 +3,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 
 const token = '6416421723:AAGcrBVbPY9E8-bIdK_4-AeM7t1KCtpn4AA'
-const chat_bot = '-1002103942145'
+const chat_bot = '-1002055941207'
 const chat_error = '-1002016006632'
 const bot = new TelegramBot(token, { polling: false });
 const app = express();
@@ -66,10 +66,10 @@ async function analisarPartidas(){
                     const oddAway = odds[4].odd_2;
                     if(casaFavoritoPressao(apHome,apAway,oddHome,scoreHome,scoreAway,idPartida,partidasNotificadas,minutes) || foraFavoritoPressao(apHome,apAway,oddAway,scoreHome,scoreAway,idPartida,partidasNotificadas,minutes)){
                             if(oddHome < oddAway){
-                                messageIndicacao = "Pressão time da casa (favorito) - possível vitória"
+                                messageIndicacao = "🏆Entrar em win casa"
                             }
                             if(oddHome > oddAway){
-                                messageIndicacao = "Pressão time visitante (favorito) - possível vitória"
+                                messageIndicacao = "🏆Entrar em win fora"
                             }
                             const mensagem = `*${nomeHome}* vs *${nomeAway}*\n\n⚽ Placar: ${scoreHome} x ${scoreAway}\n⚔️ Ataques Perigosos: ${apHome >= 45 ? '*' + apHome + '* 🔥' : apHome} x ${apAway >= 45 ? '*' + apAway + '* 🔥' : apAway}\n📈 Odds Pré: ${oddHome <= 1.45 ? oddHome + ' 👑' : oddHome} x ${oddAway <= 1.45 ? oddAway + ' 👑' : oddAway}\n🕛 Tempo: ${minutes}\n\n*${messageIndicacao}*`;
                             await enviarMensagemTelegram(chat_bot,mensagem);
