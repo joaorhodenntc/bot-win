@@ -28,14 +28,14 @@ async function enviarMensagemTelegram(chat_id,mensagem) {
     }
 }
 
-function casaFavoritoPressao(apHome, apAway, oddHome, scoreHome, scoreAway, idPartida, partidasNotificadas, minutes){
-    if((oddHome<=1.45) && (apHome/minutes>= 1) && ((apAway+apAway)<=apHome) && scoreHome==scoreAway && !partidasNotificadas.has(idPartida)){
+function casaFavoritoPressao(apHome, apAway, oddHome, scoreHome, scoreAway, idPartida, partidasNotificadas){
+    if((oddHome<=1.45) && (apHome>=45) && ((apAway+apAway)<=apHome) && scoreHome==scoreAway && !partidasNotificadas.has(idPartida)){
         return true
     }
 }
 
-function foraFavoritoPressao(apHome, apAway, oddAway, scoreHome, scoreAway, idPartida, partidasNotificadas, minutes){
-    if((oddAway<=1.45) && (apAway/minutes>= 1) && ((apHome+apHome)<=apAway) && scoreHome==scoreAway && !partidasNotificadas.has(idPartida)){
+function foraFavoritoPressao(apHome, apAway, oddAway, scoreHome, scoreAway, idPartida, partidasNotificadas){
+    if((oddAway<=1.45) && (apAway>= 45) && ((apHome+apHome)<=apAway) && scoreHome==scoreAway && !partidasNotificadas.has(idPartida)){
         return true
     }
 }
@@ -51,7 +51,7 @@ async function analisarPartidas(){
         const nomeHome = dados[i].match_hometeam_name;
         const nomeAway = dados[i].match_awayteam_name;
         const minutes = dados[i].match_status;
-        if(minutes!='Finished' && ((minutes>=45 && minutes<=50) || minutes=='Half Time' || minutes=='45+')){
+        if(minutes!='Finished' && minutes=='Half Time'){
             const dangerousAttacks = dados[i].statistics.find(stat => stat.type === 'Dangerous Attacks');
             partidasEmAnalise.add(`${nomeHome} x ${nomeAway}`);
             if(dangerousAttacks){
@@ -64,7 +64,7 @@ async function analisarPartidas(){
                     const odds = await obterOdds(idPartida);
                     const oddHome = odds[4].odd_1;
                     const oddAway = odds[4].odd_2;
-                    if(casaFavoritoPressao(apHome,apAway,oddHome,scoreHome,scoreAway,idPartida,partidasNotificadas,minutes) || foraFavoritoPressao(apHome,apAway,oddAway,scoreHome,scoreAway,idPartida,partidasNotificadas,minutes)){
+                    if(casaFavoritoPressao(apHome,apAway,oddHome,scoreHome,scoreAway,idPartida,partidasNotificadas) || foraFavoritoPressao(apHome,apAway,oddAway,scoreHome,scoreAway,idPartida,partidasNotificadas)){
                             if(oddHome < oddAway){
                                 messageIndicacao = "🏆Entrar em win casa"
                             }
