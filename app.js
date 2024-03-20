@@ -64,7 +64,7 @@ async function analisarPartidas(){
                 const oddFora = partidas[i].odds.starting['1X2'].bet365['2'];
                 const placarCasa = partidas[i].teamA.score.f;
                 const placarFora = partidas[i].teamB.score.f;
-                if(casaFavoritoPressao(apCasa,apFora,oddCasa,placarCasa,placarCasa,idPartida,partidasNotificadas) || foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, partidasNotificadas)){
+                if(casaFavoritoPressao(apCasa,apFora,oddCasa,placarCasa,placarFora,idPartida,partidasNotificadas) || foraFavoritoPressao(apCasa, apFora, oddFora, placarCasa, placarFora, idPartida, partidasNotificadas)){
                     if(oddCasa < oddFora){
                         mensagemIndicacao = "🏆Entrar em Win casa";
                     } 
